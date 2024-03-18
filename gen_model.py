@@ -25,16 +25,24 @@ class Generator(nn.Module):
         nn.BatchNorm2d(num_filters*2),
         nn.ReLU(),
 
+        nn.Conv2d(num_filters*2, num_filters*4, kernel_size=4, stride=2, padding=1),
+        nn.BatchNorm2d(num_filters*4),
+        nn.ReLU(),
+
         # Add more layers as we see fit
     )
 
     self.decoder = nn.Sequential(
+        nn.ConvTranspose2d(num_filters*4, num_filters*2, kernel_size=4, stride=2, padding=1),
+        nn.BatchNorm2d(num_filters*2),
+        nn.ReLU(),
+
         nn.ConvTranspose2d(num_filters*2, num_filters, kernel_size=4, stride=1, padding=1),
         nn.BatchNorm2d(num_filters),
         nn.ReLU(),
 
         nn.ConvTranspose2d(num_filters, output_channels, kernel_size=4, stride=2, padding=2),
-        nn.Tanh() # Tanh activation to ensure the output is in range [-1, 1]
+        nn.Sigmoid() # Ensure the output is between 0 and 1
     )
 
   def forward(self, x):
