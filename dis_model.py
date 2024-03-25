@@ -22,6 +22,6 @@ class Discriminator(nn.Module):
     )
   def forward(self, x):
     x = self.model(x)
-    # x = torch.sigmoid(x) # Ensure the output is between 0 and 1
+    x = torch.sigmoid(x) # Ensure the output is between 0 and 1
     return x
   
